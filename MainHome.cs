@@ -910,7 +910,8 @@ namespace WebSocketClient
                     string json = new JavaScriptSerializer().Serialize(new
                     {
                         cecmProgramId = long.Parse(label_CecmId_Hide.Text),
-                        deptId = long.Parse(lblDeptId.Text),
+                        //deptId = long.Parse(lblDeptId.Text),
+                        deptId = MainLogIn.donviID,
                         cecmProgramName = lbl_ProgramName.Text,
                         username = usernameI,
                         ip = IP,

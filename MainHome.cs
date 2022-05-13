@@ -337,7 +337,7 @@ namespace WebSocketClient
         private ConfigProgramDTO getOneConfigByCecmId(long cecmId)
         {
             ConfigProgramDTO configProgram = new ConfigProgramDTO();
-            string URL = ConfigURL.LocalServiceUrl + "/vnmac-service/configProgramRsServiceRest/getOneByCecmId/";
+            string URL = ConfigURL.ServerServiceUrl + "/vnmac-service/configProgramRsServiceRest/getOneByCecmId/";
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(URL);
             string objectST = "";
@@ -356,7 +356,7 @@ namespace WebSocketClient
         {
             List<CecmProgramDTO> lstCecmProgram = new List<CecmProgramDTO>();
             //string URL = "http://localhost:8084/vnmac-service/cecmProgramServiceRest/getallCecmProgram2/1/";
-            string URL = ConfigURL.LocalServiceUrl + "/vnmac-service/cecmProgramServiceRest/getallCecmProgram2/1/" + deptid;
+            string URL = ConfigURL.ServerServiceUrl + "/vnmac-service/cecmProgramServiceRest/getallCecmProgram2/1/" + deptid;
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(URL);
             string objectST = "";
@@ -379,7 +379,7 @@ namespace WebSocketClient
         public async void getAllCecmMachineBomb(long cecmProgramId)
         {
             //List<CecmProgramDTO> lstCecmProgram = new List<CecmProgramDTO>();
-            string URL = ConfigURL.LocalServiceUrl + "/vnmac-service/cecmProgramMachineBombRsServiceRest/getAll/0/0";
+            string URL = ConfigURL.ServerServiceUrl + "/vnmac-service/cecmProgramMachineBombRsServiceRest/getAll/0/0";
             HttpClient client = new HttpClient();
             //Uri uri = new Uri(URL);
             //client.BaseAddress = new Uri();
@@ -423,7 +423,7 @@ namespace WebSocketClient
         public List<CecmProgramAreaMapDTO> getAllCecmProgramAreaMapByProgramId(long program_id)
         {
             List<CecmProgramAreaMapDTO> lst = new List<CecmProgramAreaMapDTO>();
-            string URL = ConfigURL.LocalServiceUrl + "/vnmac-service/cecmProgramAreaMapServiceRest/getallCecmProgramAreaMap/" + program_id + "/0/0";
+            string URL = ConfigURL.ServerServiceUrl + "/vnmac-service/cecmProgramAreaMapServiceRest/getallCecmProgramAreaMap/" + program_id + "/0/0";
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(URL);
             string objectST = "";
@@ -518,7 +518,7 @@ namespace WebSocketClient
         void createSocket()
         {
             PaserPacket pPaserPacket = new PaserPacket();
-            WebSocket ws = new WebSocket("ws://127.0.0.1:8084/vnmac-web/message1");
+            WebSocket ws = new WebSocket("ws://10.10.10.2:1000/vnmac-web/message1");
             //WebSocket ws = new WebSocket("ws://103.101.162.83:8084/vnmac-web/message1");
             {
                 currWs = ws;
@@ -861,11 +861,19 @@ namespace WebSocketClient
                 if (isCloseAuto || isCloseByInternet)
                 {
                     program__control[program_id].ForeColor = Color.Black;
-                    connected_status_session_ids.Remove(program_id__session_id[program_id]);
-                    program_id__session_id.Remove(program_id);
+                    if (program_id__session_id.ContainsKey(program_id))
+                    {
+                        connected_status_session_ids.Remove(program_id__session_id[program_id]);
+                        program_id__session_id.Remove(program_id);
+                    }
+
                     //ws.Close();
-                    program_id__ws[program_id].Close();
-                    program_id__ws.Remove(program_id);
+                    if (program_id__ws.ContainsKey(program_id))
+                    {
+                        program_id__ws[program_id].Close();
+                        program_id__ws.Remove(program_id);
+                    }
+                    
                     if (isCloseAuto)
                     {
                         MessageBox.Show("Hết thời gian truyền tin", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -901,7 +909,7 @@ namespace WebSocketClient
 
             try
             {
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create(ConfigURL.LocalMongoUrl + "/addObj");
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(ConfigURL.ServerMongoUrl + "/addObj");
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
 

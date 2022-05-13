@@ -88,7 +88,7 @@ namespace WebSocketClient {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://103.101.162.83:8084/vnmac-mongo-service.
+        ///   Looks up a localized string similar to http://10.10.10.2:1000/vnmac-mongo-service.
         /// </summary>
         internal static string ServerMongoUrl {
             get {
@@ -97,7 +97,7 @@ namespace WebSocketClient {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://103.101.162.83:8084.
+        ///   Looks up a localized string similar to http://10.10.10.2:1000.
         /// </summary>
         internal static string ServerServiceUrl {
             get {

@@ -22,6 +22,7 @@ using CoordinateSharp;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 using System.Windows.Forms.DataVisualization.Charting;
+using WebSocketClient.EncodeModule;
 
 namespace WebSocketClient
 {
@@ -337,7 +338,8 @@ namespace WebSocketClient
         private ConfigProgramDTO getOneConfigByCecmId(long cecmId)
         {
             ConfigProgramDTO configProgram = new ConfigProgramDTO();
-            string URL = ConfigURL.ServerServiceUrl + "/vnmac-service/configProgramRsServiceRest/getOneByCecmId/";
+            //string URL = ConfigURL.ServerServiceUrl + "/vnmac-service/configProgramRsServiceRest/getOneByCecmId/";
+            string URL = "http://" + ConfigURL.WebIP + "/vnmac-service/configProgramRsServiceRest/getOneByCecmId/";
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(URL);
             string objectST = "";
@@ -356,7 +358,7 @@ namespace WebSocketClient
         {
             List<CecmProgramDTO> lstCecmProgram = new List<CecmProgramDTO>();
             //string URL = "http://localhost:8084/vnmac-service/cecmProgramServiceRest/getallCecmProgram2/1/";
-            string URL = ConfigURL.ServerServiceUrl + "/vnmac-service/cecmProgramServiceRest/getallCecmProgram2/1/" + deptid;
+            string URL = "http://" + ConfigURL.WebIP + "/vnmac-service/cecmProgramServiceRest/getallCecmProgram2/1/" + deptid;
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(URL);
             string objectST = "";
@@ -379,7 +381,7 @@ namespace WebSocketClient
         public async void getAllCecmMachineBomb(long cecmProgramId)
         {
             //List<CecmProgramDTO> lstCecmProgram = new List<CecmProgramDTO>();
-            string URL = ConfigURL.ServerServiceUrl + "/vnmac-service/cecmProgramMachineBombRsServiceRest/getAll/0/0";
+            string URL = "http://" + ConfigURL.WebIP + "/vnmac-service/cecmProgramMachineBombRsServiceRest/getAll/0/0";
             HttpClient client = new HttpClient();
             //Uri uri = new Uri(URL);
             //client.BaseAddress = new Uri();
@@ -423,7 +425,7 @@ namespace WebSocketClient
         public List<CecmProgramAreaMapDTO> getAllCecmProgramAreaMapByProgramId(long program_id)
         {
             List<CecmProgramAreaMapDTO> lst = new List<CecmProgramAreaMapDTO>();
-            string URL = ConfigURL.ServerServiceUrl + "/vnmac-service/cecmProgramAreaMapServiceRest/getallCecmProgramAreaMap/" + program_id + "/0/0";
+            string URL = "http://" + ConfigURL.WebIP + "/vnmac-service/cecmProgramAreaMapServiceRest/getallCecmProgramAreaMap/" + program_id + "/0/0";
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(URL);
             string objectST = "";
@@ -518,7 +520,7 @@ namespace WebSocketClient
         void createSocket()
         {
             PaserPacket pPaserPacket = new PaserPacket();
-            WebSocket ws = new WebSocket("ws://10.10.10.2:1000/vnmac-web/message1");
+            WebSocket ws = new WebSocket("ws://" + ConfigURL.WebIP + "/vnmac-web/message1");
             //WebSocket ws = new WebSocket("ws://103.101.162.83:8084/vnmac-web/message1");
             {
                 currWs = ws;
@@ -772,7 +774,7 @@ namespace WebSocketClient
                 }
                 else
                 {
-                    timeLast = 120;
+                    timeLast = 12000000000000000000;
                 }
                 double timeLoopTmp;
                 int timeLoop;
@@ -783,7 +785,7 @@ namespace WebSocketClient
                 }
                 else
                 {
-                    timeLoop = 5000;
+                    timeLoop = 0;
                 }
                 Console.WriteLine("timeLoop: " + timeLoop);
                 Console.WriteLine("timeLast: " + timeLast);
@@ -909,7 +911,7 @@ namespace WebSocketClient
 
             try
             {
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create(ConfigURL.ServerMongoUrl + "/addObj");
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(ConfigURL.LocalMongoUrl + "/addObj");
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
 
@@ -1155,7 +1157,10 @@ namespace WebSocketClient
                     }
                     if (connected_status_session_ids[currSessionId])
                     {
-                        currWs.Send(json);
+                        List<string> encoded = MyEncoder.encrypt(json);
+                        string jsonEncoded = new JavaScriptSerializer().Serialize(encoded);
+                        Console.WriteLine("Send ws: " + jsonEncoded);
+                        currWs.Send(jsonEncoded);
                         System.IO.File.AppendAllText(fileSPath, json + "\n");
                         if (monitorForm.InvokeRequired)
                         {
@@ -1413,7 +1418,10 @@ namespace WebSocketClient
                         }
                         if (connected_status_session_ids[currSessionId])
                         {
-                            currWs.Send(json);
+                            List<string> encoded = MyEncoder.encrypt(json);
+                            string jsonEncoded = new JavaScriptSerializer().Serialize(encoded);
+                            Console.WriteLine("Send ws: " + jsonEncoded);
+                            currWs.Send(jsonEncoded);
                             System.IO.File.AppendAllText(fileSPath, json + "\n");
                             if (monitorForm.InvokeRequired)
                             {
@@ -1552,7 +1560,11 @@ namespace WebSocketClient
                         {
                             Console.WriteLine("Server blocked");
                         }
-                        Thread.Sleep(timeLoopGlobal);
+                        if(timeLoopGlobal > 0)
+                        {
+                            Thread.Sleep(timeLoopGlobal);
+                        }
+                        
                     }
                 }
             }catch(Exception ex)

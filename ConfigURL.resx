@@ -132,4 +132,7 @@
   <data name="ServerServiceUrl" xml:space="preserve">
     <value>http://10.10.10.2:1000</value>
   </data>
+  <data name="WebIP" xml:space="preserve">
+    <value>localhost:8084</value>
+  </data>
 </root>

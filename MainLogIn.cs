@@ -162,7 +162,7 @@ namespace WebSocketClient
         string getUserByUsername(string userNameI)
         {
             // get list use rs using API
-            string URL = ConfigURL.ServerServiceUrl + "/vnmac-service/usersServiceRest/getbyusername2/";
+            string URL = "http://" + ConfigURL.WebIP + "/vnmac-service/usersServiceRest/getbyusername2/";
             string urlParameters = userNameI;
             string dataObjects = "";
 

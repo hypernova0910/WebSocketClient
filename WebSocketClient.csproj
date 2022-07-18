@@ -107,6 +107,10 @@
     <Compile Include="CecmProgramDTO.cs" />
     <Compile Include="CecmProgramMachineBombDTO.cs" />
     <Compile Include="CommonFunctions.cs" />
+    <Compile Include="EncodeModule\AESEncoder.cs" />
+    <Compile Include="EncodeModule\TestEnc.cs" />
+    <Compile Include="EncodeModule\ThayAnEncoder.cs" />
+    <Compile Include="EncodeModule\MyEncoder.cs" />
     <Compile Include="InfoDialog.cs">
       <SubType>UserControl</SubType>
     </Compile>

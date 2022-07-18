@@ -104,5 +104,14 @@ namespace WebSocketClient {
                 return ResourceManager.GetString("ServerServiceUrl", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to localhost:8084.
+        /// </summary>
+        internal static string WebIP {
+            get {
+                return ResourceManager.GetString("WebIP", resourceCulture);
+            }
+        }
     }
 }

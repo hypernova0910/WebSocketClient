@@ -918,13 +918,19 @@ namespace WebSocketClient
 
                 using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
                 {
+                    string[] latLong = GPS.Split(';');
+                    double.TryParse(latLong[0].Trim(), out double longt);
+                    double.TryParse(latLong[1].Trim(), out double latt);
                     string json = new JavaScriptSerializer().Serialize(new
                     {
                         cecmProgramId = long.Parse(label_CecmId_Hide.Text),
-                        //deptId = long.Parse(lblDeptId.Text),
-                        deptId = MainLogIn.donviID,
+                        deptId = long.Parse(lblDeptId.Text),
+                        latitude = latt,
+                        longtitude = longt,
+                        //deptId = MainLogIn.donviID,
                         cecmProgramName = lbl_ProgramName.Text,
                         username = usernameI,
+                        //point = new GeoJsonPoint<GeoJson2DCoordinates>(GeoJson.Position(latt, longt)),
                         ip = IP,
                         command = COMMAND,
                         magnetic = Magnetic,

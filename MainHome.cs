@@ -567,7 +567,8 @@ namespace WebSocketClient
                         currSessionId = session_id;
                         connected_status_session_ids.Add(session_id, true);
                         program_id__session_id.Add(program_id, session_id);
-                        program_id__ws[program_id].Send("InfoClinet;;;" + MainLogIn.userName + ";;;" + label_DeptName.Text + ";;;" + label_CecmId_Hide.Text + ";;;" + lbl_ProgramName.Text + ";;;" + DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy") + ";;;" + session_id + ";;;" + lblDeptId.Text);
+                        //program_id__ws[program_id].Send("InfoClinet;;;" + MainLogIn.userName + ";;;" + label_DeptName.Text + ";;;" + label_CecmId_Hide.Text + ";;;" + lbl_ProgramName.Text + ";;;" + DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy") + ";;;" + session_id + ";;;" + lblDeptId.Text);
+                        program_id__ws[program_id].Send("InfoClinet;;;" + MainLogIn.userName + ";;;" + label_DeptName.Text + ";;;" + label_CecmId_Hide.Text + ";;;" + lbl_ProgramName.Text + ";;;" + DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy") + ";;;" + session_id + ";;;" + MainLogIn.donviID);
                         Console.WriteLine("session_id: " + session_id);
                         isConnected = true;
 
@@ -911,7 +912,7 @@ namespace WebSocketClient
 
             try
             {
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create(ConfigURL.LocalMongoUrl + "/addObj");
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(ConfigURL.ServerMongoUrl + "/addObj");
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
 

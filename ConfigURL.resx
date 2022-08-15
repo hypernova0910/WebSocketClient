@@ -127,12 +127,12 @@
     <value>http://localhost:8084</value>
   </data>
   <data name="ServerMongoUrl" xml:space="preserve">
-    <value>http://10.10.10.2:1000/vnmac-mongo-service</value>
+    <value>http://192.168.1.61:8084/vnmac-mongo-service</value>
   </data>
   <data name="ServerServiceUrl" xml:space="preserve">
     <value>http://10.10.10.2:1000</value>
   </data>
   <data name="WebIP" xml:space="preserve">
-    <value>localhost:8084</value>
+    <value>192.168.1.61:8084</value>
   </data>
 </root>

@@ -133,6 +133,6 @@
     <value>http://10.10.10.2:1000</value>
   </data>
   <data name="WebIP" xml:space="preserve">
-    <value>192.168.1.61:8084</value>
+    <value>10.10.10.2:1000</value>
   </data>
 </root>

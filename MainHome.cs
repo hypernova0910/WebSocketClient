@@ -912,7 +912,7 @@ namespace WebSocketClient
 
             try
             {
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create(ConfigURL.ServerMongoUrl + "/addObj");
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://" + ConfigURL.WebIP + "/vnmac-mongo-service/addObj");
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
 

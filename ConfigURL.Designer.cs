@@ -106,7 +106,7 @@ namespace WebSocketClient {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 192.168.1.61:8084.
+        ///   Looks up a localized string similar to 10.10.10.2:1000.
         /// </summary>
         internal static string WebIP {
             get {

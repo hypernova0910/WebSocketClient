@@ -903,7 +903,7 @@ namespace WebSocketClient
             }
         }
 
-        bool addInfoConnectDTO(string usernameI, string IP, string COMMAND, string Magnetic, string GPS, string Corner)
+        bool addInfoConnectDTO(string usernameI, string IP, string COMMAND, string Magnetic, string GPS, string Corner, double dilution, int satelliteCount)
         {
             // call api add history table
             DateTime now = DateTime.Now;
@@ -912,7 +912,7 @@ namespace WebSocketClient
 
             try
             {
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create(ConfigURL.ServerMongoUrl + "/addObj");
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(ConfigURL.LocalMongoUrl + "/addObj");
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
 
@@ -937,7 +937,9 @@ namespace WebSocketClient
                         gps = GPS,
                         corner = Corner,
                         timeStart = datenow,
-                        timeStartST = now.ToString("HH':'mm':'ss' 'dd'/'MM'/'yyyy")
+                        timeStartST = now.ToString("HH':'mm':'ss' 'dd'/'MM'/'yyyy"),
+                        dilution = dilution,
+                        satelliteCount = satelliteCount,
                     });;;
                     streamWriter.Write(json);
                 }
@@ -1081,6 +1083,8 @@ namespace WebSocketClient
                     int.TryParse(elements[10], out int bitSent);
                     bool isFlag = ((bitSent & 8) > 0);
                     bool isDeep = ((bitSent & 2) > 0);
+                    double dilution = double.Parse(elements[11]);
+                    int satelliteCount = int.Parse(elements[12]);
 
                     double magnetic = 0.0;
                     if (numGPS <= 0 && numValue <= 0)
@@ -1089,14 +1093,14 @@ namespace WebSocketClient
                     }
                     for (short i = 0; i < numValue; i++)
                     {
-                        magnetic += double.Parse(elements[11 + i]);
+                        magnetic += double.Parse(elements[13 + i]);
                     }
                     if (numValue != 0)
                     {
                         magnetic /= numValue;
                     }
                     short offset = numValue;
-                    offset += 11;
+                    offset += 13;
                     double dLat = 0;
                     double dLon = 0;
                     string timeGPS = "";
@@ -1137,12 +1141,12 @@ namespace WebSocketClient
                         dLon = dLon,
                         dLat = dLat,
                         isFlag = isFlag,
-                        isDeep = isDeep
+                        isDeep = isDeep,
                         //northing = cWGS84.UTM.Northing,
                         //easting = cWGS84.UTM.Easting,
                         //longZone = cWGS84.UTM.LongZone,
                         //latZone = cWGS84.UTM.LatZone
-                    });
+                });
                     if (!connected_status_session_ids.ContainsKey(currSessionId))
                     {
                         connected_status_session_ids.Remove(currSessionId);
@@ -1157,7 +1161,7 @@ namespace WebSocketClient
                     {
                         return;
                     }
-                    if (!addInfoConnectDTO(MainLogIn.userName, MainLogIn.myIP, "MDN", magnetic.ToString(), dLon + "; " + dLat, "00"))
+                    if (!addInfoConnectDTO(MainLogIn.userName, MainLogIn.myIP, "MDN", magnetic.ToString(), dLon + "; " + dLat, "00", dilution, satelliteCount))
                     {
                         connected_status_session_ids.Remove(currSessionId);
                         return;
@@ -1337,12 +1341,14 @@ namespace WebSocketClient
                         int.TryParse(elements[10], out int bitSent);
                         bool isFlag = ((bitSent & 8) > 0);
                         bool isDeep = ((bitSent & 2) > 0);
+                        double dilution = double.Parse(elements[11]);
+                        int satelliteCount = int.Parse(elements[12]);
                         byte value;
                         uint led14 = 0, mask = 80;
                         double magnetic = 0;
                         for (short i = 0; i < numValue; i++)
                         {
-                            value = byte.Parse(elements[11 + i]);
+                            value = byte.Parse(elements[13 + i]);
                             /*
                             if(i== numValue-1)
                                 Console.WriteLine(value);
@@ -1365,7 +1371,7 @@ namespace WebSocketClient
                                 Console.Write(mask + "-" + led14 + ","); // gia tri thang do - trang thai led 14
                         }
                         short offset = numValue;
-                        offset += 11;
+                        offset += 13;
                         for (short k = 0; k < numGPS; k++)
                         {
                             timeGPS = elements[offset++] + ":" + elements[offset++] + ":" + elements[offset++] + " " + elements[offset++] + "/" + elements[offset++] + "/" + elements[offset++];
@@ -1403,7 +1409,7 @@ namespace WebSocketClient
                             dLon = dLon,
                             dLat = dLat,
                             isFlag = isFlag,
-                            isDeep = isDeep
+                            isDeep = isDeep,
                             //northing = cWGS84.UTM.Northing,
                             //easting = cWGS84.UTM.Easting,
                             //longZone = cWGS84.UTM.LongZone,
@@ -1418,7 +1424,7 @@ namespace WebSocketClient
                         {
                             return;
                         }
-                        if (!addInfoConnectDTO(MainLogIn.userName, MainLogIn.myIP, "MDM", magnetic.ToString(), dLon + "; " + dLat, "00"))
+                        if (!addInfoConnectDTO(MainLogIn.userName, MainLogIn.myIP, "MDM", magnetic.ToString(), dLon + "; " + dLat, "00", dilution, satelliteCount))
                         {
                             connected_status_session_ids.Remove(currSessionId);
                             return;

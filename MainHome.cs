@@ -733,7 +733,11 @@ namespace WebSocketClient
                 };
                 program_id__ws[program_id].Connect();
                 program_id__ws[program_id].Send("Connected");
-                Thread.Sleep(1000);
+                Thread.Sleep(2000);
+                if (!isConnected)
+                {
+                    Thread.Sleep(2000);
+                }
                 if (!isConnected)
                 {
                     program_id__ws[program_id].Close();
@@ -903,7 +907,7 @@ namespace WebSocketClient
             }
         }
 
-        bool addInfoConnectDTO(string usernameI, string IP, string COMMAND, string Magnetic, string GPS, string Corner, double dilution, int satelliteCount)
+        bool addInfoConnectDTO(string usernameI, string IP, string COMMAND, string Magnetic, string GPS, string Corner, double dilution, int satelliteCount, string macID)
         {
             // call api add history table
             DateTime now = DateTime.Now;
@@ -912,7 +916,8 @@ namespace WebSocketClient
 
             try
             {
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://" + ConfigURL.WebIP + "/vnmac-mongo-service/addObj");
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://" + ConfigURL.WebIPMongo + "/vnmac-mongo-service/addObj");
+                //var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://" + ConfigURL.WebIPMongo + "/addObj");
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
 
@@ -940,7 +945,8 @@ namespace WebSocketClient
                         timeStartST = now.ToString("HH':'mm':'ss' 'dd'/'MM'/'yyyy"),
                         dilution = dilution,
                         satelliteCount = satelliteCount,
-                    });;;
+                        macID = macID,
+                    });
                     streamWriter.Write(json);
                 }
 
@@ -1161,7 +1167,7 @@ namespace WebSocketClient
                     {
                         return;
                     }
-                    if (!addInfoConnectDTO(MainLogIn.userName, MainLogIn.myIP, "MDN", magnetic.ToString(), dLon + "; " + dLat, "00", dilution, satelliteCount))
+                    if (!addInfoConnectDTO(MainLogIn.userName, MainLogIn.myIP, "MDN", magnetic.ToString(), dLon + "; " + dLat, "00", dilution, satelliteCount, machineId))
                     {
                         connected_status_session_ids.Remove(currSessionId);
                         return;
@@ -1424,7 +1430,7 @@ namespace WebSocketClient
                         {
                             return;
                         }
-                        if (!addInfoConnectDTO(MainLogIn.userName, MainLogIn.myIP, "MDM", magnetic.ToString(), dLon + "; " + dLat, "00", dilution, satelliteCount))
+                        if (!addInfoConnectDTO(MainLogIn.userName, MainLogIn.myIP, "MDM", magnetic.ToString(), dLon + "; " + dLat, "00", dilution, satelliteCount, machineId))
                         {
                             connected_status_session_ids.Remove(currSessionId);
                             return;

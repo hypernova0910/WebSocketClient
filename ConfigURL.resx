@@ -135,4 +135,7 @@
   <data name="WebIP" xml:space="preserve">
     <value>10.10.10.2:1000</value>
   </data>
+  <data name="WebIPMongo" xml:space="preserve">
+    <value>10.10.10.2:1000</value>
+  </data>
 </root>

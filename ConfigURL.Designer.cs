@@ -113,5 +113,14 @@ namespace WebSocketClient {
                 return ResourceManager.GetString("WebIP", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 10.10.10.2:1000.
+        /// </summary>
+        internal static string WebIPMongo {
+            get {
+                return ResourceManager.GetString("WebIPMongo", resourceCulture);
+            }
+        }
     }
 }

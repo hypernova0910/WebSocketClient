@@ -17,7 +17,7 @@ namespace WebSocketClient
 {
     public partial class MainLogIn : Form
     {
-        public static string userName, password, myIP;
+        public static string userName, password, myIP, serverName;
         // info message send to server
         public static long donviID, duanID = 1;
         public static bool isLogin;
@@ -64,6 +64,46 @@ namespace WebSocketClient
         private void HieuLogIn_Load(object sender, EventArgs e)
         {
             isLogin = false;
+            CommonFunctions.LoadRecentInput(tbServerName, "");
+        }
+
+        private void txtUsername_Validating(object sender, CancelEventArgs e)
+        {
+            if (txtUsername.Text.Trim() == "")
+            {
+                errorProvider1.SetError(txtUsername, "Chưa nhập tên đăng nhập");
+                txtUsername.Focus();
+            }
+            else
+            {
+                errorProvider1.SetError(txtUsername, "");
+            }
+        }
+
+        private void tbServerName_Validating(object sender, CancelEventArgs e)
+        {
+            if (tbServerName.Text.Trim() == "")
+            {
+                errorProvider1.SetError(tbServerName, "Chưa nhập tên server");
+                tbServerName.Focus();
+            }
+            else
+            {
+                errorProvider1.SetError(tbServerName, "");
+            }
+        }
+
+        private void txtPassword_Validating(object sender, CancelEventArgs e)
+        {
+            if (txtPassword.Text.Trim() == "")
+            {
+                errorProvider1.SetError(txtPassword, "Chưa nhập mật khẩu");
+                txtPassword.Focus();
+            }
+            else
+            {
+                errorProvider1.SetError(txtPassword, "");
+            }
         }
 
         private static string hashPassword(string password, string salt)
@@ -94,29 +134,13 @@ namespace WebSocketClient
         {
             userName = txtUsername.Text;
             password = txtPassword.Text;
-            bool valid = true;
-            if (userName.Trim() == "")
-            {
-                lblUsernameValidate.Visible = true;
-                valid = false;
-            }
-            else
-            {
-                lblUsernameValidate.Visible = false;
-            }
-            if (password.Trim() == "")
-            {
-                lblPasswordValidator.Visible = true;
-                valid = false;
-            }
-            else
-            {
-                lblPasswordValidator.Visible = false;
-            }
-            if (!valid)
+            serverName = tbServerName.Text;
+
+            if (!ValidateChildren(ValidationConstraints.Enabled))
             {
                 return;
             }
+            CommonFunctions.SaveRecentInput(tbServerName);
 
             // get password de checklogin
             string info = getUserByUsername(userName);
@@ -162,7 +186,7 @@ namespace WebSocketClient
         string getUserByUsername(string userNameI)
         {
             // get list use rs using API
-            string URL = "http://" + ConfigURL.WebIP + "/vnmac-service/usersServiceRest/getbyusername2/";
+            string URL = "http://" + serverName + "/vnmac-service/usersServiceRest/getbyusername2/";
             string urlParameters = userNameI;
             string dataObjects = "";
 

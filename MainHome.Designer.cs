@@ -39,6 +39,7 @@ namespace WebSocketClient
             this.pnlPrograms = new System.Windows.Forms.FlowLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.pnlProgramDetail = new System.Windows.Forms.Panel();
+            this.lblDeptId = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label_CecmId_Hide = new System.Windows.Forms.Label();
             this.label_ProgramStatus = new System.Windows.Forms.Label();
@@ -63,7 +64,8 @@ namespace WebSocketClient
             this.label3 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.tbMQTT = new System.Windows.Forms.TextBox();
-            this.lblDeptId = new System.Windows.Forms.Label();
+            this.tbServerName = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1.SuspendLayout();
             this.pnlPrograms.SuspendLayout();
             this.pnlProgramDetail.SuspendLayout();
@@ -188,7 +190,7 @@ namespace WebSocketClient
             this.pnlPrograms.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.pnlPrograms.Location = new System.Drawing.Point(0, 126);
             this.pnlPrograms.Name = "pnlPrograms";
-            this.pnlPrograms.Size = new System.Drawing.Size(352, 603);
+            this.pnlPrograms.Size = new System.Drawing.Size(352, 556);
             this.pnlPrograms.TabIndex = 5;
             this.pnlPrograms.WrapContents = false;
             this.pnlPrograms.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlPrograms_Paint);
@@ -234,6 +236,15 @@ namespace WebSocketClient
             this.pnlProgramDetail.Name = "pnlProgramDetail";
             this.pnlProgramDetail.Size = new System.Drawing.Size(799, 673);
             this.pnlProgramDetail.TabIndex = 6;
+            // 
+            // lblDeptId
+            // 
+            this.lblDeptId.AutoSize = true;
+            this.lblDeptId.Location = new System.Drawing.Point(600, 15);
+            this.lblDeptId.Name = "lblDeptId";
+            this.lblDeptId.Size = new System.Drawing.Size(0, 17);
+            this.lblDeptId.TabIndex = 24;
+            this.lblDeptId.Visible = false;
             // 
             // label2
             // 
@@ -451,19 +462,29 @@ namespace WebSocketClient
             this.tbMQTT.TabIndex = 8;
             this.tbMQTT.Text = "localhost";
             // 
-            // lblDeptId
+            // tbServerName
             // 
-            this.lblDeptId.AutoSize = true;
-            this.lblDeptId.Location = new System.Drawing.Point(600, 15);
-            this.lblDeptId.Name = "lblDeptId";
-            this.lblDeptId.Size = new System.Drawing.Size(0, 17);
-            this.lblDeptId.TabIndex = 24;
-            this.lblDeptId.Visible = false;
+            this.tbServerName.Location = new System.Drawing.Point(115, 700);
+            this.tbServerName.Name = "tbServerName";
+            this.tbServerName.ReadOnly = true;
+            this.tbServerName.Size = new System.Drawing.Size(198, 22);
+            this.tbServerName.TabIndex = 10;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(26, 703);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(50, 17);
+            this.label14.TabIndex = 9;
+            this.label14.Text = "Server";
             // 
             // MainHome
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1151, 797);
+            this.Controls.Add(this.tbServerName);
+            this.Controls.Add(this.label14);
             this.Controls.Add(this.tbMQTT);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.pnlProgramDetail);
@@ -520,5 +541,7 @@ namespace WebSocketClient
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox tbMQTT;
         private System.Windows.Forms.Label lblDeptId;
+        private System.Windows.Forms.TextBox tbServerName;
+        private System.Windows.Forms.Label label14;
     }
 }

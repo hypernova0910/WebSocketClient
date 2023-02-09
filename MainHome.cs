@@ -112,6 +112,8 @@ namespace WebSocketClient
             {
                 btnConnect.Enabled = false;
             }
+            tbServerName.Text = MainLogIn.serverName;
+            CommonFunctions.LoadRecentInput(tbMQTT, "localhost");
         }
 
         private void btnLogIn_Click(object sender, EventArgs e)
@@ -339,7 +341,7 @@ namespace WebSocketClient
         {
             ConfigProgramDTO configProgram = new ConfigProgramDTO();
             //string URL = ConfigURL.ServerServiceUrl + "/vnmac-service/configProgramRsServiceRest/getOneByCecmId/";
-            string URL = "http://" + ConfigURL.WebIP + "/vnmac-service/configProgramRsServiceRest/getOneByCecmId/";
+            string URL = "http://" + MainLogIn.serverName + "/vnmac-service/configProgramRsServiceRest/getOneByCecmId/";
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(URL);
             string objectST = "";
@@ -358,7 +360,7 @@ namespace WebSocketClient
         {
             List<CecmProgramDTO> lstCecmProgram = new List<CecmProgramDTO>();
             //string URL = "http://localhost:8084/vnmac-service/cecmProgramServiceRest/getallCecmProgram2/1/";
-            string URL = "http://" + ConfigURL.WebIP + "/vnmac-service/cecmProgramServiceRest/getallCecmProgram2/1/" + deptid;
+            string URL = "http://" + MainLogIn.serverName + "/vnmac-service/cecmProgramServiceRest/getallCecmProgram2/1/" + deptid;
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(URL);
             string objectST = "";
@@ -381,7 +383,7 @@ namespace WebSocketClient
         public async void getAllCecmMachineBomb(long cecmProgramId)
         {
             //List<CecmProgramDTO> lstCecmProgram = new List<CecmProgramDTO>();
-            string URL = "http://" + ConfigURL.WebIP + "/vnmac-service/cecmProgramMachineBombRsServiceRest/getAll/0/0";
+            string URL = "http://" + MainLogIn.serverName + "/vnmac-service/cecmProgramMachineBombRsServiceRest/getAll/0/0";
             HttpClient client = new HttpClient();
             //Uri uri = new Uri(URL);
             //client.BaseAddress = new Uri();
@@ -425,7 +427,7 @@ namespace WebSocketClient
         public List<CecmProgramAreaMapDTO> getAllCecmProgramAreaMapByProgramId(long program_id)
         {
             List<CecmProgramAreaMapDTO> lst = new List<CecmProgramAreaMapDTO>();
-            string URL = "http://" + ConfigURL.WebIP + "/vnmac-service/cecmProgramAreaMapServiceRest/getallCecmProgramAreaMap/" + program_id + "/0/0";
+            string URL = "http://" + MainLogIn.serverName + "/vnmac-service/cecmProgramAreaMapServiceRest/getallCecmProgramAreaMap/" + program_id + "/0/0";
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(URL);
             string objectST = "";
@@ -520,7 +522,7 @@ namespace WebSocketClient
         void createSocket()
         {
             PaserPacket pPaserPacket = new PaserPacket();
-            WebSocket ws = new WebSocket("ws://" + ConfigURL.WebIP + "/vnmac-web/message1");
+            WebSocket ws = new WebSocket("ws://" + MainLogIn.serverName + "/vnmac-web/message1");
             //WebSocket ws = new WebSocket("ws://103.101.162.83:8084/vnmac-web/message1");
             {
                 currWs = ws;
@@ -916,8 +918,8 @@ namespace WebSocketClient
 
             try
             {
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://" + ConfigURL.WebIPMongo + "/vnmac-mongo-service/addObj");
-                //var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://" + ConfigURL.WebIPMongo + "/addObj");
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://" + MainLogIn.serverName + "/vnmac-mongo-service/addObj");
+                //var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://" + MainLogIn.serverNameMongo + "/addObj");
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
 

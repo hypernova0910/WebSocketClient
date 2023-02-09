@@ -173,7 +173,7 @@
     </Compile>
     <Compile Include="CecmProgramDTO.cs" />
     <Compile Include="CecmProgramMachineBombDTO.cs" />
-    <Compile Include="CommonFunctions.cs" />
+    <Compile Include="Common\CommonFunctions.cs" />
     <Compile Include="EncodeModule\AESEncoder.cs" />
     <Compile Include="EncodeModule\TestEnc.cs" />
     <Compile Include="EncodeModule\ThayAnEncoder.cs" />
